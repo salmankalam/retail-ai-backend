@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Form
+from fastapi import FastAPI
 from routers import analyze, clean, predict, train, auth
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -8,8 +8,9 @@ app = FastAPI(title="Retail-AI-Predict")
 origins = [
     "http://localhost:3000",   # your Next.js app
     "http://127.0.0.1:3000",   # sometimes needed separately
-    "http://127.0.0.1:5500",
-    "https://forecast-x.vercel.app/"
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "https://forecast-x.vercel.app",
 ]
 
 app.add_middleware(

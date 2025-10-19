@@ -32,7 +32,7 @@ def signup(email: str = Form(...), password: str = Form(...)):
 
     # hashed_pw = hash_password(password)
     supabase.table("users").insert({"email": email, "password": password}).execute()
-    return {"message": "User registered successfully"}
+    return {"message": "User registered successfully", "user_emal": email}
 
 
 @router.post("/login")
