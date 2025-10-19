@@ -6,13 +6,12 @@ from db import crud
 router = APIRouter(prefix="/api", tags=["Clean"])
 
 @router.post("/clean")
-async def clean_csv(file: UploadFile = File(...), email: str = Query("guest@example.com")
-):
+async def clean_csv(file: UploadFile = File(...), email: str = Query("guest@example.com")):
     df = pd.read_csv(file.file)
     cleaned_df, summary = clean_data(df)
 
     # Save to Supabase via CRUD
-    crud.insert_clean(user_email=email, file_name=file.filename, df=cleaned_df)
+    crud.insert_clean(email=email, file_name=file.filename, df=cleaned_df)
 
     return {
         "message": "Data cleaned successfully!",

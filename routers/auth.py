@@ -1,6 +1,5 @@
 from fastapi import APIRouter, HTTPException, Form
 from supabase import create_client
-# from passlib.context import CryptContext
 from dotenv import load_dotenv
 import os
 
@@ -12,14 +11,9 @@ SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-# pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-
-# def hash_password(password: str):
-#     return pwd_context.hash(password)
-
 
 def verify_password(plain_password: str, db_password: str):
+    """Simple password check (plaintext) — upgrade later with hashing."""
     return plain_password == db_password
 
 
@@ -30,9 +24,8 @@ def signup(email: str = Form(...), password: str = Form(...)):
     if existing.data:
         raise HTTPException(status_code=400, detail="Email already registered")
 
-    # hashed_pw = hash_password(password)
     supabase.table("users").insert({"email": email, "password": password}).execute()
-    return {"message": "User registered successfully", "user_emal": email}
+    return {"message": "User registered successfully", "user_email": email}
 
 
 @router.post("/login")
